@@ -1,13 +1,14 @@
 import { Injectable } from "@nestjs/common";
+import { UsuarioEntity } from "./usuario.entity";
 
 @Injectable() // precisa dessa anotação para ser considerada um  providers, para ser injetada, e precisa estar dentro do module
 export class UsuaioRepository {
-    private usuarios = [];
+    private usuarios: UsuarioEntity[] = [];
     
-    async salvar(usuario) {
+    async salvar(usuario: UsuarioEntity) {
 
         this.usuarios.push(usuario);
-        // console.log(this.usuarios);
+       
     }
 
     async listar() {
@@ -16,14 +17,14 @@ export class UsuaioRepository {
 
     async buscarPorEmail(email: String) {
         return this.usuarios.find(
-            usuario => usuario.emal === email
+            usuario => usuario.email === email
         );
     }
 
 
     
     async usuarioComExiste(email: string) {
-        console.log(email)
+      
         const possivelUsuario= this.usuarios.find(
             (usuario) => usuario.email === email,
             );

@@ -18,7 +18,7 @@ export class EmailEhUnicoValidador implements ValidatorConstraintInterface {
         validationArguments?: ValidationArguments): Promise<boolean> {
             
             const usuarioComEmailExiste = await this.usuarioRepository.usuarioComExiste(value);
-            console.log("usuarioComEmailExiste: "+usuarioComEmailExiste);
+         
         return !usuarioComEmailExiste; // uma Promise pede uma espera, e mantem todos no ambiente de async
     }
 
