@@ -25,6 +25,7 @@ export class UsuarioController {
         usuarioEntity.email = dadosDoUsuario.email;
         usuarioEntity.nome = dadosDoUsuario.nome;
         usuarioEntity.senha = dadosDoUsuario.senha;
+        console.log("usuarioEntity "+usuarioEntity)
         usuarioEntity.id = uuid();
 
         this.usuarioRepository.salvar(usuarioEntity)
@@ -77,6 +78,6 @@ export class UsuarioController {
 
     @Get('/ola')
     async teste_coneccao() {
-        return 'ta ok'
+        return 'ola usuarios'
     }
 }
