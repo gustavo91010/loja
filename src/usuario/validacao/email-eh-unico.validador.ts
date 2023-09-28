@@ -3,7 +3,7 @@ import { ValidationArguments,
       ValidatorConstraint,
        ValidatorConstraintInterface,
         registerDecorator } from "class-validator";
-import { UsuaioRepository } from "../UsuaioRepository";
+import { UsuaioRepository } from "../usuaio.repository";
 import { Injectable } from "@nestjs/common";
 import { mainModule } from "process";
 

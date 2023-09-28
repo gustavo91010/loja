@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { UsuaioRepository } from "./UsuaioRepository";
+import { UsuaioRepository } from "./usuaio.repository";
 import { criaUsuarioDto } from './dto/CriaUsuario.dto';
 import { UsuarioEntity } from './usuario.entity'
 import { v4 as uuid } from 'uuid'
 import { ListaUsuarioDTO } from './dto/ListaUsuario.dto';
 import { AtualizarUsuarioDto } from './dto/AtualizarUsuario.dto';
+import { UsuarioService } from './usuario.services';
 
 @Controller('/usuarios')
 export class UsuarioController {
@@ -15,24 +16,22 @@ export class UsuarioController {
      * vou deixar o nest fazer isso atraves do construtor
      */
 
-    constructor(private usuarioRepository: UsuaioRepository) { } // a classe que sera insjetada no construtor precisa ser um providers no modulo e na anotação na propria classe
+    constructor(
+        private usuarioService: UsuarioService,
+        private usuarioRepository: UsuaioRepository
+        ) { } // a classe que sera insjetada no construtor precisa ser um providers no modulo e na anotação na propria classe
 
     @Post()
     async criarUsuario(@Body() dadosDoUsuario: criaUsuarioDto) {
         //return {status: 'usuario criado'};
 
-        const usuarioEntity = new UsuarioEntity();
-        usuarioEntity.email = dadosDoUsuario.email;
-        usuarioEntity.nome = dadosDoUsuario.nome;
-        usuarioEntity.senha = dadosDoUsuario.senha;
-        console.log("usuarioEntity "+usuarioEntity)
-        usuarioEntity.id = uuid();
+      
 
-        this.usuarioRepository.salvar(usuarioEntity)
+       const usuarioCadastrado= await this.usuarioService.cadastro(dadosDoUsuario)
 
         return {
             // id: usuarioEntity.id,
-            usuario: new ListaUsuarioDTO(usuarioEntity.id, usuarioEntity.nome),
+            usuario: new ListaUsuarioDTO(usuarioCadastrado.id, usuarioCadastrado.nome),
             message: 'Usuário criado com sucesso'
         }
         // return dadosDoUsuario;
@@ -40,9 +39,11 @@ export class UsuarioController {
 
     @Get()
     async listUsuarios() {
-
+const usuarioLista= await this.usuarioService.listaUsuarios();
+        /**
+         * 
         const usuariosSalvos = await this.usuarioRepository.listar()
-
+        
         // map, metodo de transformação, onde as coisas acontecem
         const usuarioLista = usuariosSalvos.map(
             // ele mete, tipo, um foreatc
@@ -50,10 +51,10 @@ export class UsuarioController {
             usuario => new ListaUsuarioDTO(
                 usuario.id,
                 usuario.nome
-            )
-        )
-        return usuarioLista;
-        // return this.usuarioRepository.listar();
+                )
+                )
+                */
+                return usuarioLista;
     }
 
 

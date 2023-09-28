@@ -1,5 +1,5 @@
 import { error } from "console";
-import { ProdutoEntity } from "./Produto.entity";
+import { ProdutoEntity } from "./produto.entity";
 import { ProdutoDto } from "./dto/produtoDto";
 import { Injectable } from "@nestjs/common";
 import { ProdutoModel } from "./produto.module";
@@ -82,7 +82,7 @@ export class ProdutoRepository {
 
         }
         )
-        product.aualizado_em = new Date();
+        //product.aualizado_em = new Date();
 
         /**
         const p= new ProdutoEntity();

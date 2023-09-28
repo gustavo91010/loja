@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ProdutoEntity } from "./Produto.entity";
-import { ProdutoRepository } from "./ProdutoRepository";
+import { ProdutoEntity } from "./produto.entity";
+import { ProdutoRepository } from "./produto.repository";
 import { ProdutoDto } from "./dto/produtoDto";
 import { v4 as uuid } from 'uuid'
 import { get } from "http";
@@ -17,7 +17,7 @@ export class ProdutoService {
         produtoEntity.marca = produtoDto.marca
         produtoEntity.tipo = produtoDto.tipo
         produtoEntity.preco = produtoDto.preco
-        produtoEntity.aualizado_em = new Date();
+        // produtoEntity.aualizado_em = new Date();
 
         /**
          for (const key in produtoEntity) {
