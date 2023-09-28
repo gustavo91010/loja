@@ -37,6 +37,44 @@ eles eram adicioandos no arquivo package.json em dependencies e devDependencies
 
 2- Na classe PostgresConfigService, no campo entities adicionar essa comfiguração para ensinar o projeto vasculhar todos os arquivos que tenham entites e adicoinar como entidades, se lembre de anotar todos com a anotação.
             entities: [__dirname+'/**/*.entity{.js, .ts}'],
+            
+            
+############################################## Criando o repository:
+
+1- Ele fez o service chamar o repository padrão do typeorm, entao, ve la.
+2- Depois que fizer o service, ir na moulde.ts da entidade (usuario, produto seja lá qual for) e importar o  import { TypeOrmModule } from '@nestjs/typeorm'; la e o classe.service e a classe entity epor no module dentro do TypeOrmModule.forFeature
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
         
         
