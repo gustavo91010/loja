@@ -44,7 +44,8 @@ return (objeto: Object, propriedade: string ) =>{
 }
 
 // depois adicionar a configuração do contaniner na classe main
-// useContainer(app.select(AppModule), {fallbackOnErrors: true}); // configurar para usar o container de injeção de dependençîa padrão do nest, se der errado usa o teu mesmo
+// useContainer(app.select(AppModule), {fallbackOnErrors: true});
+ // configurar para usar o container de injeção de dependençîa padrão do nest, se der errado usa o teu mesmo
 
 }
 

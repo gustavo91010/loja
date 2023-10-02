@@ -3,12 +3,14 @@ import { UsuarioEntity } from "./usuario.entity";
 import { AtualizarUsuarioDto } from "./dto/AtualizarUsuario.dto";
 import { Repository } from "typeorm";
 import { ListaUsuarioDTO } from "./dto/ListaUsuario.dto";
+import { InjectRepository } from "@nestjs/typeorm";
 
 @Injectable() // precisa dessa anotação para ser considerada um  providers, para ser injetada, e precisa estar dentro do module
 export class UsuaioRepository {
     //@InjectRepository(UsuarioEntity)
     // private readonly repository: Repositoryory<UsuarioEntity> 
-
+   
+    @InjectRepository(UsuarioEntity)
     private readonly userRepository: Repository<UsuarioEntity>
 
 
@@ -26,11 +28,11 @@ export class UsuaioRepository {
         const usuarios = await this.userRepository.find()
 
         return usuarios.map(
-            (user) => { new ListaUsuarioDTO(user.id, user.nome) }
+            (user) => new ListaUsuarioDTO(user.id, user.nome) 
         )
     }
 
-    private async buscarPorEmail(email: string): Promise<UsuarioEntity> | undefined{
+    private async buscarPorEmail(email: string): Promise<UsuarioEntity> | undefined {
 
         const possivelUsuario = await this.userRepository.findOne({ where: { email: email } })
 
@@ -58,17 +60,32 @@ export class UsuaioRepository {
 
 
 
-    async usuarioComExiste(email: string) {
+    async usuarioComExiste(email: string): Promise<UsuarioEntity | null>{
 
-        const possivelUsuario = this.usuarios.find(
-            (usuario) => usuario.email === email,
-        );
-
-        return possivelUsuario !== undefined
+      const usuarioEncontrado= this.userRepository.findOne({ where: {email} });
+    
+    return usuarioEncontrado
     }
 
     async atualiza(id: string, dadosDeAtualizacao: Partial<UsuarioEntity>) {
-        // Um objeto parcialmente compativel com o usuarioEntity, especifica que as propriedades do objeto, nesse caso, são opcionais
+        const usuario = await this.buscaPorId(id)
+
+        if (!usuario) {
+            throw new Error('Usuário não encontrado');
+        }
+
+        Object.entries(dadosDeAtualizacao).forEach(([chave, valor]) => {
+            if (chave != 'id') {
+                usuario[chave] = valor;
+            }
+        })
+
+        const usuarioAtualizado = await this.userRepository.update(id, usuario)
+
+        return usuarioAtualizado;
+        /**
+        * 
+       // Um objeto parcialmente compativel com o usuarioEntity, especifica que as propriedades do objeto, nesse caso, são opcionais
         const usuario = this.buscaPorId(id);
         // Para capturar os parametros que estao no objeto dadosDeAtualizacao
         // Devolve um conjunto de chave/valores das propriedades enumeráveis de um objeto
@@ -78,20 +95,27 @@ export class UsuaioRepository {
             }
             usuario[chave] = valor;
         })
+        const usuarioAtualizado= new UsuarioEntity();
+        this.userRepository.update(id,usuario )// para poder atualizar preciso que seja um UsuarioEntity
         return usuario;
+        */
     }
 
     async remove(id: string) {
         const usuario = this.buscaPorId(id)
+        this.userRepository.delete(id)
 
+        /** 
+         * 
         this.usuarios = this.usuarios.filter(
             // recebendo o usuario, procurando os que nao tem id semelhante ao passado, e removendo o que tiver.
             //Devolve os elementos de uma matriz que satisfazem a condição especificada numa função de retorno de chamada.
             // devoolve os elementos que tiverem o id diferente do passado.  
             usuarioSalvo => usuarioSalvo.id !== id
-        )
-
-        return usuario;
+            )
+            
+            */
+            return usuario;
     }
 
 
