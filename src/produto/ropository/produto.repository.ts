@@ -1,8 +1,8 @@
 import { error } from "console";
-import { ProdutoEntity } from "./produto.entity";
-import { ProdutoDto } from "./dto/produtoDto";
+import { ProdutoEntity } from "../entity/produto.entity";
+import { ProdutoDto } from "../dto/produtoDto";
 import { Injectable } from "@nestjs/common";
-import { ProdutoModel } from "./produto.module";
+import { ProdutoModel } from "../produto.module";
 
 @Injectable()
 export class ProdutoRepository {

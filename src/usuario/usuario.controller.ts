@@ -17,6 +17,9 @@ export class UsuarioController {
      */
 
     constructor(
+        /**
+         * A ideia é ir subistituiando o repository em cahce pelo repository orm
+         */
         private usuarioService: UsuarioService,
         private usuarioRepository: UsuaioRepository
         ) { } // a classe que sera insjetada no construtor precisa ser um providers no modulo e na anotação na propria classe

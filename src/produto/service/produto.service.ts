@@ -1,9 +1,11 @@
 import { Inject, Injectable } from "@nestjs/common";
-import { ProdutoEntity } from "./produto.entity";
-import { ProdutoRepository } from "./produto.repository";
-import { ProdutoDto } from "./dto/produtoDto";
+import { ProdutoEntity } from "../entity/produto.entity";
+import { ProdutoRepository } from "../ropository/produto.repository";
+import { ProdutoDto } from "../dto/produtoDto";
 import { v4 as uuid } from 'uuid'
 import { get } from "http";
+import { ProdutoCaracteristicaEntity } from "../entity/produto-caracteristica.entity";
+//import { ProdutoImagemEntity } from "../produto-imagem.entity";
 
 @Injectable()
 export class ProdutoService {
@@ -11,12 +13,27 @@ export class ProdutoService {
 
 
     async cadastrar(produtoDto: ProdutoDto) {
-
+        if (!produtoDto.marca || !produtoDto.tipo || !produtoDto.preco) {
+            throw new Error("Marca, tipo e preço são campos obrigatórios.");
+        }
         const produtoEntity = new ProdutoEntity();
         produtoEntity.id = uuid();
         produtoEntity.marca = produtoDto.marca
         produtoEntity.tipo = produtoDto.tipo
         produtoEntity.preco = produtoDto.preco
+        //produtoEntity.caractetisticas= new ProdutoCaracteristicaEntity(produtoDto.caracteristicas)
+        //produtoEntity.imagem= produtoDto.imagens.map(image=> new ProdutoImagemEntity(image));
+        produtoEntity.imagem= produtoDto.imagens;
+
+
+        //produtoEntity.caractetisticas.push[new ProdutoCaracteristicaEntity(dto)]
+        //produtoEntity.caractetisticas.push(new ProdutoCaracteristicaEntity(produtoDto.caracteristicas));
+
+        // Para adicionar todas as caracteristicas que eu receber
+        produtoEntity.caractetisticas = produtoDto.caracteristicas.map(dto => new ProdutoCaracteristicaEntity());
+
+
+        //corrigindo campo de image 5min
         // produtoEntity.aualizado_em = new Date();
 
         /**
